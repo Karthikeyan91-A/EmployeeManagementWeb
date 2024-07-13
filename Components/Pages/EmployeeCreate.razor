@@ -3,15 +3,29 @@
 @using Employee_Management_Web.Repository.Interface;
 @inject IEmployeeRepository employeeRepository;
 @inject NavigationManager navigationManager;
+@rendermode InteractiveServer
 
 <h3>Create Employee</h3>
-
-<input type="text" @bind="newEmployee.FirstName" placeholder="Name" />
-<input type="text" @bind="newEmployee.LastName" placeholder="Position" />
+<input type="text" @bind="newEmployee.EmployeeId" placeholder="Id" />
+<input type="text" @bind="newEmployee.FirstName" placeholder="FirstName" />
+<input type="text" @bind="newEmployee.LastName" placeholder="LastName" />
+<select @bind="newEmployee.DepartmentId">
+    <option value="">Select Department</option>
+    @foreach (var department in departments)
+    {
+        <option value="@department.DepartmentId">@department.DepartmentName</option>
+    }
+</select>
 <button class="btn btn-success" @onclick="CreateEmployee">Create</button>
 
 @code {
     Employee newEmployee = new Employee();
+    List<Department> departments = new List<Department>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        departments = await employeeRepository.GetDepartmentsAsync();
+    }
 
     private async Task CreateEmployee()
     {

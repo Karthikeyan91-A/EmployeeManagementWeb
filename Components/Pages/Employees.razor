@@ -3,6 +3,7 @@
 @using Employee_Management_Web.Repository.Interface
 @inject IEmployeeRepository _employeeRepository;
 @inject NavigationManager navigationManager;
+@rendermode InteractiveServer
 
 
 <h3>Employee List</h3>
@@ -31,16 +32,17 @@ else
                     <td>@employee.LastName</td>
                     <td>@(employee.Department !=null ? @employee.Department.DepartmentName : "N/A")</td> 
                     <td>
-                        <button class="btn btn-primary" onclick="() => EditEmployee(@employee.EmployeeId)">Edit</button>
-                        <button class="btn btn-primary"  onclick="() => DeleteEmployee(@employee.EmployeeId)">Delete</button>
+                        <button class="btn btn-primary" @onclick="@(() => EditEmployee(@employee.EmployeeId))">Edit</button>
+                        <button class="btn btn-primary"  @onclick="@(() => DeleteEmployee(@employee.EmployeeId))">Delete</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
   
-    <button class="btn btn-success" onclick=" ()=> addEmployee">Add</button>
+  
 }
+<button class="btn btn-success" @onclick="AddEmployee">Add</button>
 
 @code {
     List<Employee> employees = new List<Employee>();
@@ -51,13 +53,18 @@ else
         employees = await _employeeRepository.GetEmployeesAsync();
     }
 
+    private void AddEmployee()
+    {
+        navigationManager.NavigateTo($"/employees/create");
+    }
+
     private void EditEmployee(int id) {
         navigationManager.NavigateTo($"/employees/edit/{id}");
     }
 
     private async void DeleteEmployee(int id)
     {
-        await _employeeRepository.DeleteEmployeeAsync(id);
+        navigationManager.NavigateTo($"/employees/delete/{id}");
     }
 
 }

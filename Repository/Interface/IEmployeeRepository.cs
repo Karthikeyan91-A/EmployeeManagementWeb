@@ -9,5 +9,7 @@ namespace Employee_Management_Web.Repository.Interface
         Task CreateEmployeeAsync(Employee employee);
         Task UpdateEmployeeAsync(int id,Employee employee);
         Task DeleteEmployeeAsync(int id);
+
+        Task<List<Department>> GetDepartmentsAsync();
     }
 }

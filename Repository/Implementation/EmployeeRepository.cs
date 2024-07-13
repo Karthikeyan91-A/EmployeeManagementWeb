@@ -43,5 +43,12 @@ namespace Employee_Management_Web.Repository.Implementation
             var response = await _httpClient.DeleteAsync($"api/employees/{id}");
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task<List<Department>> GetDepartmentsAsync()
+        {
+            var response = await _httpClient.GetAsync("api/departments");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<List<Department>>();
+        }
     }
 }
