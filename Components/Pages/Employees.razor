@@ -1,0 +1,115 @@
+﻿@page "/employee"
+@using Employee_Management_Web.Models
+@inject HttpClient httpClient
+
+
+<h3>Employee List</h3>
+@if(employees == null)
+{
+    <p><em>Loading..</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var employee in employees)
+            {
+                <tr>
+                    <td>@employee.EmployeeId</td>
+                    <td>@employee.FirstName</td>
+                    <td>@employee.LastName</td>
+                    <td>@(employee.Department !=null ? @employee.Department.DepartmentName : "N/A")</td> 
+                    <td>
+                        <button class="btn btn-primary" onclick="()=> editEmployee(@employee.EmployeeId, @employee)">Edit</button>
+                        <button class="btn btn-primary"  onclick=" ()=> deleteEmployee(@employee.EmployeeId)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if(showModel)
+    {
+        <div class="modal fade show" tabindex="-1" style="display: block;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@title</h5>
+                        <button type="button" class="close" @onclick="() => closeModel()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="firstname">First Name</label>
+                                <input type="text" class="form-control" id="name" @bind="employee.FirstName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname">Last Name</label>
+                                <input type="email" class="form-control" id="email" @bind="employee.LastName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Department</label>
+                                <input type="email" class="form-control" id="email" @bind="employee.LastName" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @onclick="saveEmployee">Save</button>
+                        <button type="button" class="btn btn-secondary" @onclick="closeModel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <button class="btn btn-success" onclick=" ()=> addEmployee">Add</button>
+}
+
+@code {
+    List<Employee> employees;
+    Employee employee;
+    bool showModel;
+    string title;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await httpClient.GetFromJsonAsync<List<Employee>>("https://localhost:7241/api/employees");
+    }
+
+    void addEmployee()
+    {
+        employee = new Employee();
+        showModel = true;
+        title = "Add New Employee";
+    }
+    void closeModel()
+    {
+        showModel = false;
+        employee = null;
+    }
+
+    void editEmployee(int id, Employee emp)
+    {
+        employee = emp;
+        showModel = true;
+        title = "Edit Employee";
+    }
+
+    async Task saveEmployee()
+    {
+        if(employee.EmployeeId == 0)
+        {
+            
+        }
+    }
+}
+
