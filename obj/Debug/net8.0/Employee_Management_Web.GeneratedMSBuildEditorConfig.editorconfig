@@ -26,6 +26,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/hr/source/repos/Test_Repo/EmployeeManagementWeb/Components/Pages/EmployeeCreate.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbXBsb3llZUNyZWF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/hr/source/repos/Test_Repo/EmployeeManagementWeb/Components/Pages/EmployeeDelete.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbXBsb3llZURlbGV0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/hr/source/repos/Test_Repo/EmployeeManagementWeb/Components/Pages/EmployeeEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbXBsb3llZUVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/hr/source/repos/Test_Repo/EmployeeManagementWeb/Components/Pages/Employees.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbXBsb3llZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

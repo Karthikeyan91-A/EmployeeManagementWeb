@@ -1,9 +1,13 @@
 using Employee_Management_Web.Components;
+using Employee_Management_Web.Repository.Interface;
+using Employee_Management_Web.Repository.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("TestClient", client =>
+        client.BaseAddress = new Uri("https://localhost:7241/"));
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 

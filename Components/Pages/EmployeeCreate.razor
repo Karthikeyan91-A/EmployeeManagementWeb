@@ -1,0 +1,21 @@
+﻿@page "/employees/create"
+@using Employee_Management_Web.Models;
+@using Employee_Management_Web.Repository.Interface;
+@inject IEmployeeRepository employeeRepository;
+@inject NavigationManager navigationManager;
+
+<h3>Create Employee</h3>
+
+<input type="text" @bind="newEmployee.FirstName" placeholder="Name" />
+<input type="text" @bind="newEmployee.LastName" placeholder="Position" />
+<button class="btn btn-success" @onclick="CreateEmployee">Create</button>
+
+@code {
+    Employee newEmployee = new Employee();
+
+    private async Task CreateEmployee()
+    {
+        await employeeRepository.CreateEmployeeAsync(newEmployee);
+        navigationManager.NavigateTo("/employees");
+    }
+}

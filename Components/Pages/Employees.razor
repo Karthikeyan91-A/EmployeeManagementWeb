@@ -1,6 +1,8 @@
-﻿@page "/employee"
+﻿@page "/employees"
 @using Employee_Management_Web.Models
-@inject HttpClient httpClient
+@using Employee_Management_Web.Repository.Interface
+@inject IEmployeeRepository _employeeRepository;
+@inject NavigationManager navigationManager;
 
 
 <h3>Employee List</h3>
@@ -29,87 +31,34 @@ else
                     <td>@employee.LastName</td>
                     <td>@(employee.Department !=null ? @employee.Department.DepartmentName : "N/A")</td> 
                     <td>
-                        <button class="btn btn-primary" onclick="()=> editEmployee(@employee.EmployeeId, @employee)">Edit</button>
-                        <button class="btn btn-primary"  onclick=" ()=> deleteEmployee(@employee.EmployeeId)">Delete</button>
+                        <button class="btn btn-primary" onclick="() => EditEmployee(@employee.EmployeeId)">Edit</button>
+                        <button class="btn btn-primary"  onclick="() => DeleteEmployee(@employee.EmployeeId)">Delete</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    @if(showModel)
-    {
-        <div class="modal fade show" tabindex="-1" style="display: block;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">@title</h5>
-                        <button type="button" class="close" @onclick="() => closeModel()">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="firstname">First Name</label>
-                                <input type="text" class="form-control" id="name" @bind="employee.FirstName" />
-                            </div>
-                            <div class="form-group">
-                                <label for="lastname">Last Name</label>
-                                <input type="email" class="form-control" id="email" @bind="employee.LastName" />
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Department</label>
-                                <input type="email" class="form-control" id="email" @bind="employee.LastName" />
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @onclick="saveEmployee">Save</button>
-                        <button type="button" class="btn btn-secondary" @onclick="closeModel">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+  
     <button class="btn btn-success" onclick=" ()=> addEmployee">Add</button>
 }
 
 @code {
-    List<Employee> employees;
-    Employee employee;
-    bool showModel;
-    string title;
+    List<Employee> employees = new List<Employee>();
+
 
     protected override async Task OnInitializedAsync()
     {
-        employees = await httpClient.GetFromJsonAsync<List<Employee>>("https://localhost:7241/api/employees");
+        employees = await _employeeRepository.GetEmployeesAsync();
     }
 
-    void addEmployee()
-    {
-        employee = new Employee();
-        showModel = true;
-        title = "Add New Employee";
-    }
-    void closeModel()
-    {
-        showModel = false;
-        employee = null;
+    private void EditEmployee(int id) {
+        navigationManager.NavigateTo($"/employees/edit/{id}");
     }
 
-    void editEmployee(int id, Employee emp)
+    private async void DeleteEmployee(int id)
     {
-        employee = emp;
-        showModel = true;
-        title = "Edit Employee";
+        await _employeeRepository.DeleteEmployeeAsync(id);
     }
 
-    async Task saveEmployee()
-    {
-        if(employee.EmployeeId == 0)
-        {
-            
-        }
-    }
 }
 

@@ -1,0 +1,31 @@
+﻿@page "/employees/delete/{id:int}"
+@using Employee_Management_Web.Models;
+@using Employee_Management_Web.Repository.Interface;
+@inject IEmployeeRepository employeeRepository;
+@inject NavigationManager navigationManager;
+
+<h3>Delete Employee</h3>
+
+@if (currentEmployee != null)
+{
+    <p>Are you sure you want to delete employee: @currentEmployee.FirstName?</p>
+    <button class="btn btn-danger" @onclick="DeleteEmployee">Delete</button>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    Employee currentEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentEmployee = await employeeRepository.GetEmployeeByIdAsync(id);
+    }
+
+    private async Task DeleteEmployee()
+    {
+        await employeeRepository.DeleteEmployeeAsync(id);
+        navigationManager.NavigateTo("/employees");
+    }
+}

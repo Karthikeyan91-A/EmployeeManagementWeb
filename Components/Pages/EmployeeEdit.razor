@@ -1,0 +1,32 @@
+﻿@page "/employees/edit/{id:int}"
+@using Employee_Management_Web.Models;
+@using Employee_Management_Web.Repository.Interface;
+@inject IEmployeeRepository employeeRepository
+@inject NavigationManager navigationManager
+
+<h3>Edit Employee</h3>
+
+@if (currentEmployee != null)
+{
+    <input type="text" @bind="currentEmployee.FirstName" />
+    <input type="text" @bind="currentEmployee.LastName" />
+    <button class="btn btn-primary" @onclick="UpdateEmployee">Save Changes</button>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    Employee currentEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentEmployee = await employeeRepository.GetEmployeeByIdAsync(Id);
+    }
+
+    private async Task UpdateEmployee()
+    {
+        await employeeRepository.UpdateEmployeeAsync(Id, currentEmployee);
+        navigationManager.NavigateTo("/employees");
+    }
+}
