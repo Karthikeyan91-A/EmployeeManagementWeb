@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClient("TestClient", client =>
-        client.BaseAddress = new Uri("https://localhost:7241/"));
+        client.BaseAddress = new Uri("https://localhost:1434/"));
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
