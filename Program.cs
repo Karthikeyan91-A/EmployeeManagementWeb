@@ -1,12 +1,18 @@
 using Employee_Management_Web.Components;
 using Employee_Management_Web.Repository.Interface;
 using Employee_Management_Web.Repository.Implementation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
 builder.Services.AddHttpClient("TestClient", client =>
-        client.BaseAddress = new Uri("https://localhost:1434/"));
+        client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]));
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
